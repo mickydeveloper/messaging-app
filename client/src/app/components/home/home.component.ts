@@ -1,51 +1,48 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Blog } from './../../models/blog';
+import { Message } from './../../models/message';
 import './../../rxjs-operators';
-import { BlogService, AuthenticationService } from './../../services/index';
+import { MessageService, AuthenticationService } from './../../services/index';
 
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
-  providers: [BlogService]
+  providers: [MessageService]
 })
 export class HomeComponent implements OnInit {
   isSubmitted = false;
-  model = new Blog('', '');
+  model = new Message('', '');
   loggedInUser = JSON.parse(JSON.parse(localStorage.getItem('currentUser'))["_body"])["username"];
-  public blogMessages = [];
+  public messages = [];
 
-  constructor (
-    private blogService: BlogService,
+  constructor(
+    private messageService: MessageService,
     private authService: AuthenticationService
-  ) {}
+  ) { }
 
-  submitBlog() {
-    this.blogService.addBlog(this.model)
-    .subscribe(
-        blogMsg => {
-          // console.log("Messages:", messages);
-          this.model = blogMsg;
-          // this.getBlogs();
-        }
-      );
+  submitMessage() {
+    this.model.author = this.loggedInUser;
+    this.messageService.addMessage(this.model)
+      .subscribe(
+        messageMsg => {
+          this.model = new Message('', '');
+      });
   }
 
-  getBlogs() {
+  getMessages() {
     console.log('Subscribe to service');
-    this.blogService.getBlogs()
+    this.messageService.getMessages()
       .subscribe(
-        messages => {
-          // console.log("Messages:",messages);
-          this.blogMessages = messages;
-        },
-      );
+      messages => {
+        // console.log("Messages:",messages);
+        this.messages = messages;
+      },
+    );
   }
 
   ngOnInit() {
-    this.getBlogs();
-    console.log(this.loggedInUser);
+    this.getMessages();
   }
 }

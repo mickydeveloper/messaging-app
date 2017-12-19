@@ -50,7 +50,7 @@ router.post('/authenticate', function (req, res, next) {
             res.send(req.body);
         }
         else {
-            res.status(500).send('Wrong Username and Password!');
+            res.status(500).send('Wrong Username or Password!');
         }
     });
 });

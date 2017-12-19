@@ -4,40 +4,34 @@ var mongoose = require('mongoose');
 var schema = require('../model/schema');
 var database = require('../model/database');
 
-/* GET all blog messages */
+/* GET messages */
 router.get('/get', function(req, res, next) {
-    schema.Blog.find({}).exec(function (err, blogs) {
+    schema.Messages.find({}).exec(function (err, messages) {
         if (err)
             return console.error(err);
-        console.log("Load success: ", blogs);
-        res.send(blogs);
+        console.log("Load success: ", messages);
+        res.send(messages);
     });
 
 });
 
-/* POST single blog post */
+/* POST single message */
 router.post('/post', function(req, res, next) {
-    var instance = new schema.Blog(req.body);
-    /** Example post body:
-     {
-       "author": "Morten Mathiasen",
-       "body": "Hello everyone"
-     }
-     **/
+    var instance = new schema.Messages(req.body);
 
-    schema.Blog.find({}).sort({_id:-1}).skip(10).exec(function (err, blogs) {
+    schema.Messages.find({}).sort({_id:-1}).skip(10).exec(function (err, messages) {
         console.log("Hallo 2");
         if (err)
             return console.error(err);
-        console.log("Loader success: ", blogs);
-        blogs.forEach(function(blog){
-            console.log("Loader success: ", blog);
-            schema.Blog.findByIdAndRemove(blog._id).exec();
+        console.log("Loader success: ", messages);
+        messages.forEach(function(message){
+            console.log("Loader success: ", message);
+            schema.Messages.findByIdAndRemove(message._id).exec();
         });
     });
 
-    instance.save(function (err, Blog) {
-        result = err?err:Blog;
+    instance.save(function (err, Message) {
+        result = err?err:Message;
         res.send(result);
         router.notifyclients();
         return result;
@@ -45,20 +39,19 @@ router.post('/post', function(req, res, next) {
 });
 
 
-/* Notify blog messages to connected clients */
+/* Notify messages to connected clients */
 router.clients = [];
 router.addClient = function (client) {
     router.clients.push(client);
     router.notifyclients(client);
 };
 router.notifyclients = function (client) {
-    schema.Blog.find({}).exec(function (err, blogs) {
+    schema.Messages.find({}).exec(function (err, messages) {
         if (err)
             return console.error(err);
-        //console.log("Load success: ", blogs);
         var toNotify = client?new Array(client):router.clients;
         toNotify.forEach(function(socket){
-            socket.emit('refresh', blogs);
+            socket.emit('refresh', messages);
         })
     });
 }
