@@ -1,3 +1,11 @@
+<header class="row">
+  <div class="col-6">
+    You are currently logged in as <b>{{ loggedInUser }}</b>
+  </div>
+  <div class="col-6 text-right">
+    <a [routerLink]="['/login']">Logout now!</a>
+  </div>
+</header>
 <h2>Create new message</h2>
 <form (ngSubmit)="submitBlog()">
   <div class="form-group">

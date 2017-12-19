@@ -14,20 +14,7 @@ export class UserService {
     private socket;
     private url = window.location.origin;
 
-    /*
-    getById(id: number) {
-        return this.http.get('/api/users/' + id);
-    }
-
-    update(user: User) {
-        return this.http.put('/api/users/' + user.id, user);
-    }
-
-    delete(id: number) {
-        return this.http.delete('/api/users/' + id);
-    }*/
-
-        /*
+     /*
      * Get users from server
      */
     getAll(): Observable<User[]> {
@@ -53,8 +40,7 @@ export class UserService {
         let options = new RequestOptions({ headers: headers });
 
         return this.http.post(this.postUsersUrl, user, options)
-            .map(this.extractData)
-            .catch(this.handleError);
+            .map(this.extractData);
     }
 
     /*

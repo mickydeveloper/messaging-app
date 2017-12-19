@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 
 import { Blog } from './../../models/blog';
 import './../../rxjs-operators';
-import { BlogService } from './../../services/blog.service';
+import { BlogService, AuthenticationService } from './../../services/index';
+
 
 @Component({
   selector: 'app-home',
@@ -13,13 +14,17 @@ import { BlogService } from './../../services/blog.service';
 export class HomeComponent implements OnInit {
   isSubmitted = false;
   model = new Blog('', '');
+  loggedInUser = JSON.parse(JSON.parse(localStorage.getItem('currentUser'))["_body"])["username"];
   public blogMessages = [];
 
-  constructor (private blogService: BlogService) {}
+  constructor (
+    private blogService: BlogService,
+    private authService: AuthenticationService
+  ) {}
 
   submitBlog() {
     this.blogService.addBlog(this.model)
-      .subscribe(
+    .subscribe(
         blogMsg => {
           // console.log("Messages:", messages);
           this.model = blogMsg;
@@ -41,5 +46,6 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.getBlogs();
+    console.log(this.loggedInUser);
   }
 }
