@@ -4,7 +4,7 @@ ul {
 
   li {
     margin-bottom: 1rem;
-    padding: 1.3rem 1rem;
+    padding: 1rem;
     border-radius: 5px;
     color: #656565;
     font-weight: bold;
@@ -13,11 +13,13 @@ ul {
 
     &:hover,
     &:focus,
-    &:active {
+    &:active,
+    &.active {
         transform: scale(0.98);
         background: #007bff;
         color: white;
         box-shadow: none;
+        cursor: pointer;
     }
   }
 }

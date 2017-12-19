@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
 import { Room } from './../../../models/room';
 import './../../../rxjs-operators';
@@ -15,7 +15,9 @@ import { RoomService } from './../../../services/index';
 export class ChatRoomListComponent implements OnInit {
   isSubmitted = false;
   model = new Room('');
+  active = new Room('');
   public rooms = [];
+  @Output() activeChat = new EventEmitter();
 
   constructor(
     private roomService: RoomService
@@ -25,8 +27,8 @@ export class ChatRoomListComponent implements OnInit {
     this.isSubmitted = true;
     this.roomService.addRoom(this.model)
       .subscribe(
-        messageMsg => {
-          this.model = new Room('');
+      messageMsg => {
+        this.model = new Room('');
       });
   }
 
@@ -41,5 +43,10 @@ export class ChatRoomListComponent implements OnInit {
 
   ngOnInit() {
     this.getRooms();
+  }
+
+  setActiveChat(room) {
+    this.activeChat.emit(room);
+    this.active = room;
   }
 }

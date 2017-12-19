@@ -3,18 +3,18 @@
 <form (ngSubmit)="f.form.valid && submitRoom()" #f="ngForm">
   <div class="form-group">
     <div class="input-group">
-      <input type="text" class="form-control" id="body" required [(ngModel)]="model.roomName" name="roomName" placeholder="Room Name"
+      <input type="text" class="form-control" id="body" required [(ngModel)]="model.roomName" name="roomName" placeholder="Room name"
         #roomname="ngModel">
       <span class="input-group-btn">
         <button type="submit" class="btn btn-secondary">Add</button>
       </span>
-      <div *ngIf="f.submitted && !roomname.valid" class="help-block text-danger">You Need Room Name</div>
     </div>
+    <div *ngIf="f.submitted && !roomname.valid" class="help-block text-danger">You need room name</div>
   </div>
 
 </form>
 <ul>
-  <li *ngFor="let room of rooms">
+  <li *ngFor="let room of rooms" (click)="setActiveChat(room)" [ngClass]="{'active': active.roomName === room.roomName}">
     {{room.roomName}}
   </li>
 </ul>

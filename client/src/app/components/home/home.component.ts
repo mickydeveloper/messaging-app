@@ -14,4 +14,8 @@ export class HomeComponent {
 
   constructor(
   ) { }
+
+  setCurrentChat(activeChat){
+    this.currentRoom = activeChat;
+  }
 }

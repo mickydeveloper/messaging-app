@@ -8,10 +8,10 @@
   </div>
 </header>
 <div class="row">
-  <div class="col-12 col-md-9">
-    <app-chat-room></app-chat-room>
+  <div class="col-12 col-md-8 mt-4 pr-md-5">
+    <app-chat-room [currentRoom]="currentRoom"></app-chat-room>
   </div>
-  <div class="col-12 col-md-3">
-    <app-chat-room-list></app-chat-room-list>
+  <div class="col-12 col-md-4 mt-4">
+    <app-chat-room-list (activeChat)="setCurrentChat($event)"></app-chat-room-list>
   </div>
 </div>

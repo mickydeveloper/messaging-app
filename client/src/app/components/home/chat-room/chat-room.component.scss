@@ -1,0 +1,40 @@
+ul{
+    padding: 0;
+    list-style: none;
+    max-height: 65vh;
+    overflow: auto;
+    margin-bottom: 1rem;
+
+    li {
+        margin-bottom: 1.5rem;
+        text-align: right;
+        .message-wrapper {
+            display: inline-block;
+        }
+
+        .author {
+            margin-left: 0.4rem;
+            margin-bottom: 0.3rem;
+            font-size: 0.9rem;
+            color: #797777;
+        }
+
+        .message {
+            padding: 1rem;
+            background: #e2e2e2;
+            border-radius: 8px;
+        }
+
+        &.current{
+            text-align: left;
+            .message{
+                background: #007bff;
+                color: white;
+            }
+        }
+    }
+
+    &::-webkit-scrollbar { 
+        display: none; 
+    }
+}

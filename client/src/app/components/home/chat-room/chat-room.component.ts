@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, AfterViewChecked, ElementRef, ViewChild } from '@angular/core';
 
 import { Message } from './../../../models/message';
 import { Room } from './../../../models/room';
@@ -14,10 +14,11 @@ import { MessageService } from './../../../services/index';
   ]
 })
 export class ChatRoomComponent implements OnInit {
-  roomName = 'Chat Room Name';
+  @ViewChild('scrollMe') private myScrollContainer: ElementRef;
+  roomName = 'Select chat room';
   isSubmitted = false;
   model = new Message('', '', '');
-  currentRoom = new Room('');
+  @Input() currentRoom = new Room('');
   loggedInUser = JSON.parse(JSON.parse(localStorage.getItem('currentUser'))["_body"])["username"];
   public messages = [];
 
@@ -27,10 +28,11 @@ export class ChatRoomComponent implements OnInit {
 
   submitMessage() {
     this.model.author = this.loggedInUser;
+    this.model.roomName = this.roomName;
     this.messageService.addMessage(this.model)
       .subscribe(
-        messageMsg => {
-          this.model = new Message('', '', '');
+      messageMsg => {
+        this.model = new Message('', '', '');
       });
   }
 
@@ -47,5 +49,22 @@ export class ChatRoomComponent implements OnInit {
 
   ngOnInit() {
     this.getMessages();
+  }
+
+  ngOnChanges() {
+    if (this.currentRoom.roomName !== '') {
+      this.roomName = this.currentRoom.roomName;
+    }
+    this.scrollToBottom();
+  }
+
+  ngAfterViewChecked() {
+    this.scrollToBottom();
+  }
+
+  scrollToBottom(): void {
+    try {
+      this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
+    } catch (err) { }
   }
 }
