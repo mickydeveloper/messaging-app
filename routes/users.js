@@ -3,6 +3,7 @@ var router = express.Router();
 var mongoose = require('mongoose');
 var schema = require('../model/schema');
 var database = require('../model/database');
+var crypto = require('crypto');
 
 /* GET all users messages */
 router.get('/get', function(req, res, next) {
@@ -40,6 +41,24 @@ router.post('/post', function(req, res, next) {
         res.send(result);
         return result;
     });
+});
+
+router.post('/authenticate', function(req, res, next) {
+  schema.Users.find({ "username": req.body.username, "password": req.body.password }).exec(function (err, users) {
+    if (err){
+      return console.error(err);
+    }
+
+    console.log(req.body.password);
+    console.log(users);
+
+    if(users[0]){
+      res.send(req.body);
+    }
+    else{
+      res.status(500).send('Wrong Username and Password!')
+    }
+  });
 });
 
 //export the router
