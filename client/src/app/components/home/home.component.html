@@ -1,24 +1,17 @@
 <header class="row">
   <div class="col-6 vertical-middle">
-    Welcome <b>{{ loggedInUser }}</b>
+    Welcome
+    <b>{{ loggedInUser }}</b>
   </div>
   <div class="col-6 text-right">
-    <a class="btn btn-danger"  [routerLink]="['/login']">Logout now!</a>
+    <a class="btn btn-danger" [routerLink]="['/login']">Logout now!</a>
   </div>
 </header>
-
-<h2>Create new message</h2>
-<form (ngSubmit)="submitMessage()">
-  <div class="form-group">
-    <input type="text" class="form-control" id="body" required
-           [(ngModel)]="model.body" name="body" placeholder="Message">
+<div class="row">
+  <div class="col-12 col-md-9">
+    <app-chat-room></app-chat-room>
   </div>
-  <button type="submit" class="btn btn-default">Submit</button>
-</form>
-
-<h2>All messages</h2>
-<ul>
-  <li *ngFor="let message of messages">
-    {{message.author}} : "{{message.body}}"
-  </li>
-</ul>
+  <div class="col-12 col-md-3">
+    <app-chat-room-list></app-chat-room-list>
+  </div>
+</div>

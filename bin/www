@@ -17,6 +17,7 @@ var socketio = require('socket.io');
 
 var users = require('../routes/users');
 var messages = require('../routes/messages');
+var rooms = require('../routes/rooms');
 
 // view engine setup
 app.set('views', path.join(__dirname, '../views'));
@@ -31,6 +32,7 @@ app.use(cookieParser());
 
 app.use('/api/messages', messages);
 app.use('/api/users', users);
+app.use('/api/rooms', rooms);
 
 app.use(express.static(path.join(__dirname, '../public')));
 app.use(express.static(path.join(__dirname, '../client/dist')));
@@ -80,6 +82,8 @@ server.listen(port);
 server.on('error', onError);
 io.on('connection', function (socket) {
     console.log("New client connected");
+    rooms.addClient(socket);
+    rooms.notifyclients();
     messages.addClient(socket);
     messages.notifyclients();
 });

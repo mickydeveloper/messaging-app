@@ -1,0 +1,20 @@
+<h5>Chat Rooms</h5>
+
+<form (ngSubmit)="f.form.valid && submitRoom()" #f="ngForm">
+  <div class="form-group">
+    <div class="input-group">
+      <input type="text" class="form-control" id="body" required [(ngModel)]="model.roomName" name="roomName" placeholder="Room Name"
+        #roomname="ngModel">
+      <span class="input-group-btn">
+        <button type="submit" class="btn btn-secondary">Add</button>
+      </span>
+      <div *ngIf="f.submitted && !roomname.valid" class="help-block text-danger">You Need Room Name</div>
+    </div>
+  </div>
+
+</form>
+<ul>
+  <li *ngFor="let room of rooms">
+    {{room.roomName}}
+  </li>
+</ul>

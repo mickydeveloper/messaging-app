@@ -13,6 +13,8 @@ import { HomeComponent } from './components/home/home.component';
 import { MEAN2RoutingModule } from './app-routing.module';
 import { RegisterComponent } from './components/register/register.component';
 import { AlertComponent } from './directives/alert/alert.component';
+import { ChatRoomComponent } from './components/home/chat-room/chat-room.component';
+import { ChatRoomListComponent } from './components/home/chat-room-list/chat-room-list.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +22,9 @@ import { AlertComponent } from './directives/alert/alert.component';
     LoginComponent,
     HomeComponent,
     RegisterComponent,
-    AlertComponent
+    AlertComponent,
+    ChatRoomComponent,
+    ChatRoomListComponent
   ],
   imports: [
     BrowserModule,

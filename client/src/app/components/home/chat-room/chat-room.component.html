@@ -1,0 +1,13 @@
+<h3>{{ roomName }}</h3>
+<ul>
+  <li *ngFor="let message of messages">
+    {{message.author}} : "{{message.body}}"
+  </li>
+</ul>
+<form (ngSubmit)="f.form.valid && submitMessage()" #f="ngForm">
+    <div class="form-group">
+      <input type="text" class="form-control" id="body" required [(ngModel)]="model.body" name="body" placeholder="Message" #message="ngModel">
+      <div *ngIf="f.submitted && !message.valid" class="help-block text-danger">You can't send empty message</div>
+    </div>
+    <button type="submit" class="btn btn-primary">Send</button>
+</form>
