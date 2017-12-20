@@ -13,7 +13,7 @@ import { MessageService } from './../../../services/index';
     MessageService
   ]
 })
-export class ChatRoomComponent implements OnInit {
+export class ChatRoomComponent{
   @ViewChild('scrollMe') private myScrollContainer: ElementRef;
   roomName = 'Select chat room';
   isSubmitted = false;
@@ -29,6 +29,7 @@ export class ChatRoomComponent implements OnInit {
   submitMessage() {
     this.model.author = this.loggedInUser;
     this.model.roomName = this.roomName;
+    this.messages.push(this.model);
     this.messageService.addMessage(this.model)
       .subscribe(
       messageMsg => {
@@ -38,7 +39,7 @@ export class ChatRoomComponent implements OnInit {
 
   getMessages() {
     console.log('Subscribe to service');
-    this.messageService.getMessages()
+    this.messageService.getMessagesByRoomName(this.roomName)
       .subscribe(
       messages => {
         // console.log("Messages:",messages);
@@ -47,13 +48,10 @@ export class ChatRoomComponent implements OnInit {
     );
   }
 
-  ngOnInit() {
-    this.getMessages();
-  }
-
   ngOnChanges() {
     if (this.currentRoom.roomName !== '') {
       this.roomName = this.currentRoom.roomName;
+      this.getMessages();
     }
     this.scrollToBottom();
   }

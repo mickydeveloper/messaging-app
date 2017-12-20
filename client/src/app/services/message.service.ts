@@ -30,6 +30,12 @@ export class MessageService {
         return observable;
     }
 
+    getMessagesByRoomName(roomName): Observable<Message[]> {
+        return this.http.get(this.getMessagesUrl, { params: { 'roomName': roomName}})
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+
     /*
      * Send message to server
      */

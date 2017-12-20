@@ -6,7 +6,7 @@ var database = require('../model/database');
 
 /* GET messages */
 router.get('/get', function(req, res, next) {
-    schema.Rooms.find({}).exec(function (err, messages) {
+    schema.Messages.find({ "roomName": req.query.roomName }).exec(function (err, messages) {
         if (err)
             return console.error(err);
         console.log("Load success: ", messages);
