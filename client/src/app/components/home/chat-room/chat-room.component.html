@@ -1,5 +1,5 @@
 <h3>{{ roomName }}</h3>
-<div *ngIf="this.currentRoom.roomName !== ''">
+<div class="scroll-parent" *ngIf="this.currentRoom.roomName !== ''">
   <ul #scrollMe>
     <li *ngFor="let message of messages"  [ngClass]="{'current': message.author===loggedInUser}">
       <div class="message-wrapper">
@@ -20,7 +20,6 @@
           <button type="submit" class="btn btn-success w-100">Send</button>
         </span>
       </div>
-      <div *ngIf="f.submitted && !message.valid" class="help-block text-danger">You can't send empty message</div>
     </div>
   </form>
 </div>

@@ -6,10 +6,10 @@
       <input type="text" class="form-control" id="body" required [(ngModel)]="model.roomName" name="roomName" placeholder="Room name"
         #roomname="ngModel">
       <span class="input-group-btn">
-        <button type="submit" class="btn btn-secondary">Add</button>
+        <button type="submit" class="btn btn-success">Add</button>
       </span>
     </div>
-    <div *ngIf="f.submitted && !roomname.valid" class="help-block text-danger">You need room name</div>
+    <div *ngIf="f.submitted && !roomname.empty" class="help-block text-danger">You need room name</div>
   </div>
 
 </form>

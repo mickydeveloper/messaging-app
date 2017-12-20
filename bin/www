@@ -85,7 +85,6 @@ io.on('connection', function (socket) {
     rooms.addClient(socket);
     rooms.notifyclients();
     messages.addClient(socket);
-    messages.notifyclients();
 });
 server.on('listening', onListening);
 

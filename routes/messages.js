@@ -5,7 +5,7 @@ var schema = require('../model/schema');
 var database = require('../model/database');
 
 /* GET messages */
-router.get('/get', function(req, res, next) {
+router.get('/get', function (req, res, next) {
     schema.Messages.find({ "roomName": req.query.roomName }).exec(function (err, messages) {
         if (err)
             return console.error(err);
@@ -16,24 +16,24 @@ router.get('/get', function(req, res, next) {
 });
 
 /* POST single message */
-router.post('/post', function(req, res, next) {
+router.post('/post', function (req, res, next) {
     var instance = new schema.Messages(req.body);
 
-    schema.Messages.find({}).sort({_id:-1}).skip(10).exec(function (err, messages) {
+    schema.Messages.find({}).sort({ _id: -1 }).skip(1000).exec(function (err, messages) {
         console.log("Hallo 2");
         if (err)
             return console.error(err);
         console.log("Loader success: ", messages);
-        messages.forEach(function(message){
+        messages.forEach(function (message) {
             console.log("Loader success: ", message);
             schema.Messages.findByIdAndRemove(message._id).exec();
         });
     });
 
     instance.save(function (err, Message) {
-        result = err?err:Message;
+        result = err ? err : Message;
         res.send(result);
-        router.notifyclients();
+        router.notifyclients(Message);
         return result;
     });
 });
@@ -43,17 +43,13 @@ router.post('/post', function(req, res, next) {
 router.clients = [];
 router.addClient = function (client) {
     router.clients.push(client);
-    router.notifyclients(client);
 };
-router.notifyclients = function (client) {
-    schema.Messages.find({}).exec(function (err, messages) {
-        if (err)
-            return console.error(err);
-        var toNotify = client?new Array(client):router.clients;
-        toNotify.forEach(function(socket){
-            socket.emit('refresh', messages);
+router.notifyclients = function (message) {
+    if(message){
+        router.clients.forEach(function (socket) {
+            socket.emit(message.roomName, message);
         })
-    });
+    }
 }
 
 //export the router

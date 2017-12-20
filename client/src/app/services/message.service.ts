@@ -30,8 +30,23 @@ export class MessageService {
         return observable;
     }
 
+    enterRoom(roomName): Observable<Message[]> {
+        let observable = new Observable(observer => {
+            console.log("Socket:", this.url);
+            this.socket = io(this.url);
+            this.socket.on(roomName, (data) => {
+                observer.next(data);
+            });
+
+            return () => {
+                this.socket.disconnect();
+            };
+        });
+        return observable;
+    }
+
     getMessagesByRoomName(roomName): Observable<Message[]> {
-        return this.http.get(this.getMessagesUrl, { params: { 'roomName': roomName}})
+        return this.http.get(this.getMessagesUrl, { params: { 'roomName': roomName } })
             .map(this.extractData)
             .catch(this.handleError);
     }

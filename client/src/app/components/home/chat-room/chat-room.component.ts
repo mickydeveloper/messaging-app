@@ -13,9 +13,10 @@ import { MessageService } from './../../../services/index';
     MessageService
   ]
 })
-export class ChatRoomComponent{
+export class ChatRoomComponent {
   @ViewChild('scrollMe') private myScrollContainer: ElementRef;
   roomName = 'Select chat room';
+  visitedRooms = [];
   isSubmitted = false;
   model = new Message('', '', '');
   @Input() currentRoom = new Room('');
@@ -29,7 +30,6 @@ export class ChatRoomComponent{
   submitMessage() {
     this.model.author = this.loggedInUser;
     this.model.roomName = this.roomName;
-    this.messages.push(this.model);
     this.messageService.addMessage(this.model)
       .subscribe(
       messageMsg => {
@@ -38,11 +38,9 @@ export class ChatRoomComponent{
   }
 
   getMessages() {
-    console.log('Subscribe to service');
     this.messageService.getMessagesByRoomName(this.roomName)
       .subscribe(
       messages => {
-        // console.log("Messages:",messages);
         this.messages = messages;
       },
     );
@@ -52,6 +50,18 @@ export class ChatRoomComponent{
     if (this.currentRoom.roomName !== '') {
       this.roomName = this.currentRoom.roomName;
       this.getMessages();
+
+      if (!(this.visitedRooms.indexOf(this.roomName) > -1)) {
+        this.visitedRooms.push(this.roomName);
+        this.messageService.enterRoom(this.roomName)
+          .subscribe(
+          message => {
+            if (message) {
+              this.messages.push(message);
+            }
+          },
+        );
+      }
     }
     this.scrollToBottom();
   }
